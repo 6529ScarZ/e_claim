@@ -1,0 +1,6 @@
+10.0.0.253
+admintoy
+gotoytoynoy
+misdb
+3306
+utf8
