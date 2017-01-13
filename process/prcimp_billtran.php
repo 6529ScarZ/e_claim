@@ -1,6 +1,6 @@
 <?php include '../header2.php';
-ignore_user_abort(1); // run script in background
-set_time_limit(180);
+ignore_user_abort();
+set_time_limit(0);
 ini_set('max_execution_time', 0);?>
 <script language="JavaScript" type="text/javascript">
             var StayAlive = 1; // เวลาเป็นวินาทีที่ต้องการให้ WIndows เปิดออก 
@@ -10,12 +10,23 @@ ini_set('max_execution_time', 0);?>
             }
         </script>
         <body onLoad="KillMe();self.focus();window.opener.location.reload();">
-            <DIV  align='center'><IMG src='../images/tororo_hero.gif' width='200'></div>
+            
 <?php
 function __autoload($class_name) {
     include '../class/'.strtolower($class_name).'.php';
-}
-if (null !== (filter_input(INPUT_POST, 'method'))) {  
+}?>
+<DIV  align='center'><IMG src='../images/tororo_hero.gif' width='200'></div>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <div class='bs-example'>
+            <div class='progress progress-striped active'>
+            <div class='progress-bar' style='width: 100%'></div>
+            </div></div>
+            <div class='alert alert-dismissable alert-info'>
+	  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+	  <a class='alert-link' target='_blank' href='#'><center>กำลังดำเนเนการ</center></a> 
+</div>
+<?php if (null !== (filter_input(INPUT_POST, 'method'))) {  
     $method=filter_input(INPUT_POST, 'method');
 }
 $take_date_conv = $_POST['st_date'];
