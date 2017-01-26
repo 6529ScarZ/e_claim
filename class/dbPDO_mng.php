@@ -4,6 +4,10 @@ class dbPDO_mng extends ConnPDO_db{
 
     private $sql;
     
+    public function __construct(){
+        date_default_timezone_set('Asia/Bangkok');
+    }
+            
     public function imp_sql($sql) {
         $this->sql=$sql;
     }

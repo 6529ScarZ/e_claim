@@ -1,4 +1,6 @@
-<?php session_start(); 
+<?php 
+session_save_path("../session/");
+session_start(); 
 if (empty($_SESSION['user_mis'])) {
     echo "<meta http-equiv='refresh' content='0;url=index.php'/>";
     exit();

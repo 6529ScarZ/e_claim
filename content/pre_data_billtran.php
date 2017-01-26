@@ -17,7 +17,7 @@ include '../header2.php';include '../plugins/funcDateThai.php';
                 <div class="box-body">
                     <?php
                     function __autoload($class_name) {
-    include '../class/'.strtolower($class_name).'.php';
+    include '../class/'.$class_name.'.php';
 }
 $conn_DB= new TablePDO();
 $read="../connection/conn_DB.txt";

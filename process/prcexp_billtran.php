@@ -13,7 +13,7 @@ set_time_limit(180);
             <DIV  align='center'><IMG src='../images/tororo_hero.gif' width='200'></div>
 <?php
 function __autoload($class_name) {
-    include '../class/'.strtolower($class_name).'.php';
+    include '../class/'.$class_name.'.php';
 }
 $conn_DB= new EnDeCode();
 $read="../connection/conn_DB.txt";

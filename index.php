@@ -1,10 +1,12 @@
-<?php require 'up_header.php'; require 'header.php'; require 'menu.php';?>
+<?php require_once 'up_header.php'; 
+require_once 'header.php'; 
+require_once 'menu.php';?>
 <!-- Content Header (Page header) -->
 <?php
 if (isset($_SESSION['user_mis'])) {
     if (NULL !== (filter_input(INPUT_GET, 'page'))) {
         $page = filter_input(INPUT_GET, 'page');
-        require 'class/render.php';
+        //require 'class/render.php';
         $render_php = new render($page);
         $render = $render_php->getRenderedPHP();
         echo $render;
@@ -25,7 +27,7 @@ if (isset($_SESSION['user_mis'])) {
 } else { 
     if (isset($_GET['NLI']) and (NULL !== (filter_input(INPUT_GET, 'page')))) {
         $page = filter_input(INPUT_GET, 'page');
-        require 'class/render.php';
+        //require_once 'class/render.php';
         $render_php = new render($page);
         $render = $render_php->getRenderedPHP();
         echo $render;
@@ -45,7 +47,6 @@ if (isset($_SESSION['user_mis'])) {
             </center> 
     <?php } ?>
         <center><h2><b>E - Claim</b></h2></center>
-
         NO LOGIN.           
 
     </section>

@@ -1,6 +1,6 @@
 <?php
 function __autoload($class_name) {
-    include '../class/'.strtolower($class_name).'.php';
+    include '../class/'.$class_name.'.php';
 }
 
 $download = new download();

@@ -128,7 +128,7 @@
               </div><!-- /.form-group -->
               <div class="form-group">
                 <label class="control-sidebar-subheading">
-                    <a href="index.php?page=content/add_User">
+                    <a href="index.php?page=content/add_user">
                         <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าผู้ใช้งาน </a>
                 </label>
               </div><!-- /.form-group -->

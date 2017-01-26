@@ -3,6 +3,7 @@ session_save_path("../session/");
 session_start(); include '../header2.php';
 ignore_user_abort(1); // run script in background
 set_time_limit(180);
+date_default_timezone_set('Asia/Bangkok');
 ?>
 <script language="JavaScript" type="text/javascript">
             var StayAlive = 9; // เวลาเป็นวินาทีที่ต้องการให้ WIndows เปิดออก 
@@ -15,7 +16,7 @@ set_time_limit(180);
             <DIV  align='center'><IMG src='../images/tororo_hero.gif' width='200'></div>
 <?php
 function __autoload($class_name) {
-    include '../class/'.strtolower($class_name).'.php';
+    include '../class/'.$class_name.'.php';
 }
 $conn_DB= new EnDeCode();
 $read="../connection/conn_DB.txt";

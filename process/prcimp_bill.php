@@ -12,7 +12,7 @@ ini_set('max_execution_time', 0);?>
         <body onLoad="KillMe();self.focus();window.opener.location.reload();">
 <?php
 function __autoload($class_name) {
-    include '../class/'.strtolower($class_name).'.php';
+    include '../class/'.$class_name.'.php';
 }?>
 <DIV  align='center'><IMG src='../images/tororo_hero.gif' width='200'></div>
             <p>&nbsp;</p>

@@ -6,9 +6,10 @@ if($_REQUEST['method']!=$check){
 }
 include 'header.php';
 $host= filter_input(INPUT_GET, 'host');
-function __autoload($class_name) {
+/*function __autoload($class_name) {
     include 'class/'.strtolower($class_name).'.php';
-}
+}*/
+include 'class/TablePDO.php';
 $conn_DB= new TablePDO();
 if ($host=='hos'){
 $read="connection/conn_DBHosxp.txt";

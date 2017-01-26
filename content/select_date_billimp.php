@@ -20,7 +20,7 @@ if (isset($method) and $method == 'imp') {
     <form class="" role="form" action='../process/prcimp_bill.php' enctype="multipart/form-data" method='post'>
         <input type="hidden" name="method" value="upd">
 <?php }elseif ($method == 'exp_total') {?>
-    <form class="" role="form" action='../process/prcexp_bill.php' enctype="multipart/form-data" method='post'>   
+    <form class="" role="form" action='../process/prcexp_bill2.php' enctype="multipart/form-data" method='post'>   
     <input type="hidden" name="method" value="exp_total">
 <?php }?>
 <div class="row">
@@ -84,7 +84,7 @@ foreach ($check_ps as $key => $value) {
         foreach ($_SESSION['dispenseID'] as $key => $value) {    
             echo $value." ,";}}
 function __autoload($class_name) {
-    include '../class/'.strtolower($class_name).'.php';
+    require_once '../class/'.$class_name.'.php';
 }
 if(!empty($_POST['st_date'])){
 $take_date_conv1 = $_POST['st_date'];

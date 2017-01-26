@@ -35,7 +35,7 @@
                 $location="logo/".$logo['logo'];
                 include 'function/delet_file.php';
                 fulldelete($location);}
-                $upload = new File_Upload("image", "logo");
+                $upload = new file_upload("image", "logo");
                 $image = $upload->upload();
                 
                 $data = array($_POST['name'], $_POST['m_name'], $image,

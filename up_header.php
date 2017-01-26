@@ -3,8 +3,9 @@ session_save_path("./session/");
 session_start(); 
 //require_once 'class/TablePDO.php';
 function __autoload($class_name) {
-    include 'class/'.strtolower($class_name).'.php';
+    include 'class/'.$class_name.'.php';
 }
+//include 'class/TablePDO.php';
 set_time_limit(0);
 $conn_DB= new TablePDO();
 $read="connection/conn_DB.txt";
@@ -24,6 +25,8 @@ if($db != FALSE){
                     $sql = "select * from  hospital order by hospital limit 1";
                     $conn_DB->imp_sql($sql);
                     $resultComm=$conn_DB->select_a();
+                    $pic = "";
+                    $fol = "";
                     if (!empty($resultComm['logo'])) {
                                     $pic = $resultComm['logo'];
                                     $fol = "logo/";

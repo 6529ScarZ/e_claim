@@ -9,6 +9,7 @@ class Export {
         $this->symbol=$symbol;
         $this->query1=$query1;
         $this->query2=$query2;
+        date_default_timezone_set('Asia/Bangkok');
 }
 public function Export_TXT(){
 $objWrite = fopen("$this->filName.txt", "w");
