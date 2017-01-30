@@ -103,33 +103,43 @@ ORDER BY ov.vstdate, ov.vsttime
 $conn_DBHOS->imp_sql($sql2);
 $query2=$conn_DBHOS->select();
 
+$data="";
 $count_qr1=count($query1);
 for($i=0;$i<$count_qr1;$i++){
-    
-    $data=array($query1[$i]['providerID'],$query1[$i]['dispenseID'],$query1[$i]['invoice_no'],$query1[$i]['hn'],$query1[$i]['PID'],$query1[$i]['prescription_date'],$query1[$i]['dispensed_date'],
-        $query1[$i]['prescriber'],$query1[$i]['item_count'],$query1[$i]['charg_amount'],$query1[$i]['claim_amount'],
-            $query1[$i]['paid_amount'],$query1[$i]['other_amount'],$query1[$i]['reimbuser'],$query1[$i]['benefit_plan'],$query1[$i]['dispense_status'],0);
+    if ($i != 0) {
+               $data.=", ";
+            } 
+     $data.="('".$query1[$i]['providerID']."','".$query1[$i]['dispenseID']."','".$query1[$i]['invoice_no']."','".$query1[$i]['hn']."','".$query1[$i]['PID']."','".$query1[$i]['prescription_date']."','".$query1[$i]['dispensed_date']."','".
+        $query1[$i]['prescriber']."','".$query1[$i]['item_count']."','".$query1[$i]['charg_amount']."','".$query1[$i]['claim_amount']."','".
+            $query1[$i]['paid_amount']."','".$query1[$i]['other_amount']."','".$query1[$i]['reimbuser']."','".$query1[$i]['benefit_plan']."','".$query1[$i]['dispense_status']."','0')";
+    }
     $table="billdisp";
     $chk="chk";
 
- $inert_disp=$conn_DBMAIN->insert_update($table, $data, $chk);  }  
+ $inert_disp=$conn_DBMAIN->insert_update_new($table, $data, $chk);  
 
+ $data="";
 $count_qr2=count($query2);
 for($i=0;$i<$count_qr2;$i++){
+	if ($i != 0) {
+               $data.=", ";
+            } 
     $PackSize=$conv->tis620_to_utf8($query2[$i]['PackSize']);
     $sigText=$conv->tis620_to_utf8($query2[$i]['sigText']);
-    $data=array($query2[$i]['hos_guid'],$query2[$i]['dispenseID'],$query2[$i]['productCategory'],$query2[$i]['HospitalDrugID'],$query2[$i]['drugID'],$query2[$i]['dfsCode'],$query2[$i]['dfstext'],$PackSize,
-            $query2[$i]['singcode'],$sigText,$query2[$i]['quantity'],$query2[$i]['UnitPrice'],$query2[$i]['Chargeamount'],$query2[$i]['ReimbPrice'],$query2[$i]['ReimbAmount']
-            ,$query2[$i]['ProDuctselectionCode'],$query2[$i]['refill'],$query2[$i]['claimControl'],$query2[$i]['ClaimCategory'],$query2[$i]['prescription_date'],0);
+    $data.="('".$query2[$i]['hos_guid']."','".$query2[$i]['dispenseID']."','".$query2[$i]['productCategory']."','".$query2[$i]['HospitalDrugID']."','".$query2[$i]['drugID']."','".$query2[$i]['dfsCode']."','".$query2[$i]['dfstext']."','".$PackSize."','".
+            $query2[$i]['singcode']."','".$sigText."','".$query2[$i]['quantity']."','".$query2[$i]['UnitPrice']."','".$query2[$i]['Chargeamount']."','".$query2[$i]['ReimbPrice']."','".$query2[$i]['ReimbAmount']
+            ."','".$query2[$i]['ProDuctselectionCode']."','".$query2[$i]['refill']."','".$query2[$i]['claimControl']."','".$query2[$i]['ClaimCategory']."','".$query2[$i]['prescription_date']."','0')";
+    }
     $table="billdisp_item";
     $chk="chk";
+    $inert_dispitem=$conn_DBMAIN->insert_update_new($table, $data, $chk);
 
-    $inert_dispitem=$conn_DBMAIN->insert_update($table, $data, $chk);}
-    if(($inert_disp and $inert_dispitem)==FALSE){
-    echo "<script>alert('การนำเข้าข้อมูล BILDISP ไม่สำเร็จจ้า!')</script>";
-}else{
-    echo "<script>alert('การนำเข้าข้อมูล BILDISP สำเร็จแล้วจ้า!')</script>";
-}
+/*    if(($inert_disp and $inert_dispitem)==FALSE){
+        $conn_DBHOS->close_PDO();
+        $conn_DBMAIN->close_PDO();
+        exit();
+}else{*/
+    
 ///////////////Import BILLTRANS///////////////////
 $sql="SELECT 
   '14644' AS Station, '' AS AuthCode, DATE_FORMAT(CONCAT(ov.vstdate,' ',ov.vsttime), '%Y-%m-%d %h:%i:%s') AS DTTran, 
@@ -174,33 +184,37 @@ WHERE op.vn IN
 $conn_DBHOS->imp_sql($sql2);
 $query2=$conn_DBHOS->select();
 
-
+$data="";
 $count_qr1=count($query1);
 for($i=0;$i<$count_qr1;$i++){
-    
-    $data=array($query1[$i]['Station'],$query1[$i]['AuthCode'],$query1[$i]['DTTran'],$query1[$i]['HCode'],$query1[$i]['InvNo'],$query1[$i]['BillNo'],$query1[$i]['HN'],
-        $query1[$i]['MemberNo'],$query1[$i]['Amount'],$query1[$i]['Paid'],$query1[$i]['VerCode'],
-            $query1[$i]['Tflag'],0);
-    $table="billtran";
+	if ($i != 0) {
+               $data.=", ";
+            } 
+     $data.="('".$query1[$i]['Station']."','".$query1[$i]['AuthCode']."','".$query1[$i]['DTTran']."','".$query1[$i]['HCode']."','".$query1[$i]['InvNo']."','".$query1[$i]['BillNo']."','".$query1[$i]['HN']."','".
+        $query1[$i]['MemberNo']."','".$query1[$i]['Amount']."','".$query1[$i]['Paid']."','".$query1[$i]['VerCode']."','".
+            $query1[$i]['Tflag']."','0')";
+    }   
+ $table="billtran";
     $chk="chk";
+ $inert_tran=$conn_DBMAIN->insert_update_new($table, $data, $chk); 
     
- $inert_tran=$conn_DBMAIN->insert_update($table, $data, $chk); }   
-
+$data="";
 $count_qr2=count($query2);
 for($i=0;$i<$count_qr2;$i++){
-    //$PackSize=$conv->tis620_to_utf8($query2[$i]['PackSize']);
-    //$sigText=$conv->tis620_to_utf8($query2[$i]['sigText']);
-    $data=array($query2[$i]['hos_guid'],$query2[$i]['InvNo'],$query2[$i]['BillMuad'],$query2[$i]['Amount'],$query2[$i]['Paid'],$query2[$i]['DTTran'],0);
+    if ($i != 0) {
+               $data.=", ";
+            } 
+    $data.="('".$query2[$i]['hos_guid']."','".$query2[$i]['InvNo']."','".$query2[$i]['BillMuad']."','".$query2[$i]['Amount']."','".$query2[$i]['Paid']."','".$query2[$i]['DTTran']."','0')";
+    }
     $table="billtran_item";
     $chk="chk";
+$inert_tranitem=$conn_DBMAIN->insert_update_new($table, $data, $chk);  
 
-$inert_tranitem=$conn_DBMAIN->insert_update($table, $data, $chk);  }
-
-if(($inert_tran and $inert_tranitem)==FALSE){
-    echo "<script>alert('การนำเข้าข้อมูล BILLTRANS ไม่สำเร็จจ้า!')</script>";
-}else{
-    echo "<script>alert('การนำเข้าข้อมูล BILLTRANS สำเร็จแล้วจ้า!')</script>";
-}
+/*if(($inert_tran and $inert_tranitem)==FALSE){
+    $conn_DBHOS->close_PDO();
+    $conn_DBMAIN->close_PDO();
+   exit();
+}else{*/
 //////////////Import MIS///////////////////
 
 $sql="SELECT SUBSTR(ov.vstdate,1,7) AS vstmonth,
@@ -275,59 +289,84 @@ group by vstdate) a;
 $conn_DBHOS->imp_sql($sql5);
 $query5=$conn_DBHOS->select();
 
+$data="";
 $count_qr1=count($query1);
 for($i=0;$i<$count_qr1;$i++){
-    $table="opd_report";
-    $chk="chk";
-     $data=array($query1[$i]['vstmonth'],$query1[$i]['man'],$query1[$i]['woman'],date("Y-m-d H:i:s"),date("Y-m-d H:i:s"),0);
- $inert_opd=$conn_DBMAIN->insert_update($table, $data, $chk);  }
+    if ($i != 0) {
+               $data.=", ";
+            } 
+     $data.="('".$query1[$i]['vstmonth']."','".$query1[$i]['man']."','".$query1[$i]['woman']."','".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."','0')";
+ }
+ $table="opd_report";
+ $chk="chk";
+ $inert_opd=$conn_DBMAIN->insert_update_new($table, $data, $chk);  
 
+$data="";
 $count_qr2=count($query2);
-for($i=0;$i<$count_qr2;$i++){
-    $icdname=$conv->tis620_to_utf8($query2[$i]['icdname']);
+for($i=0;$i<$count_qr2;$i++){ 
+            if ($i != 0) {
+               $data.=", ";
+            } 
+     $icdname=$conv->tis620_to_utf8($query2[$i]['icdname']);
+     $vstmonth=$query2[$i]['vstmonth'].'-01';
+     $data.="('".$vstmonth."','".$query2[$i]['code3']."','".$query2[$i]['pdx_count']."','".$icdname."','".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."','0')";
+    }
+    
     $table="opd_report_10dxg";
     $chk="chk";
-
-        $vstmonth=$query2[$i]['vstmonth'].'-01';
-     $data=array($vstmonth,$query2[$i]['code3'],$query2[$i]['pdx_count'],$icdname,date("Y-m-d H:i:s"),date("Y-m-d H:i:s"),0);
-    $inert_10dxg=$conn_DBMAIN->insert_update($table, $data, $chk);}
+    $inert_10dxg=$conn_DBMAIN->insert_update_new($table, $data, $chk);
     
+	$data="";
     $count_qr3=count($query3);
     for($i=0;$i<$count_qr3;$i++){
+        if ($i != 0) {
+               $data.=", ";
+            }
+     $vstmonth=$query3[$i]['vstmonth'].'-01';
+     $data.="('".$vstmonth."','".$query3[$i]['province']."','".$query3[$i]['count_patient']."','".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."','0')";
+    }
     $table="opd_report_5prov";
     $chk="chk";
-
-        $vstmonth=$query3[$i]['vstmonth'].'-01';
-     $data=array($vstmonth,$query3[$i]['province'],$query3[$i]['count_patient'],date("Y-m-d H:i:s"),date("Y-m-d H:i:s"),0);
-    $inert_5prov=$conn_DBMAIN->insert_update($table, $data, $chk); }
+    $inert_5prov=$conn_DBMAIN->insert_update_new($table, $data, $chk); 
     
+	$data="";
     $count_qr4=count($query4);
     for($i=0;$i<$count_qr4;$i++){
+        if ($i != 0) {
+               $data.=", ";
+            }
+	$admdate=$query4[$i]['admdate'];
+     $data.="('$admdate','".$query4[$i]['admit_m1']."','".$query4[$i]['admit_m2']."','".$query4[$i]['admit_w']."','".$query4[$i]['admit_total']."','".$query4[$i]['dch_m1']."'
+             ,'".$query4[$i]['dch_m2']."','".$query4[$i]['dch_w']."','".$query4[$i]['dch_total']."','".$query4[$i]['stable_m1']."','".$query4[$i]['stable_m2']."','".$query4[$i]['stable_w']."'
+             ,'".$query4[$i]['stable_total']."','".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."','0')";
+     }
     $table="ipd_report_stable";
     $chk="chk";
-    $admdate=$query4[$i]['admdate'];
-
-     $data=array($admdate,$query4[$i]['admit_m1'],$query4[$i]['admit_m2'],$query4[$i]['admit_w'],$query4[$i]['admit_total'],$query4[$i]['dch_m1']
-             ,$query4[$i]['dch_m2'],$query4[$i]['dch_w'],$query4[$i]['dch_total'],$query4[$i]['stable_m1'],$query4[$i]['stable_m2'],$query4[$i]['stable_w']
-             ,$query4[$i]['stable_total'],date("Y-m-d H:i:s"),date("Y-m-d H:i:s"),0);
-    $inert_stable=$conn_DBMAIN->insert_update($table, $data, $chk);  }
     
+     $inert_stable=$conn_DBMAIN->insert_update_new($table, $data, $chk); 
+    
+	$data="";
     $count_qr5=count($query5);
+    
     for($i=0;$i<$count_qr5;$i++){
+     if ($i != 0) {
+               $data.=", ";
+            }
+	$admdate=$query5[$i]['admdate'];
+     $data.="('$admdate','".$query5[$i]['admit_m']."','".$query5[$i]['admit_w']."','".$query5[$i]['admit_total']."','".$query5[$i]['dch_m']."'
+             ,'".$query5[$i]['dch_w']."','".$query5[$i]['dch_total']."','".$query5[$i]['stable_m']."','".$query5[$i]['stable_w']."'
+             ,'".$query5[$i]['stable_total']."','".date("Y-m-d H:i:s")."','".date("Y-m-d H:i:s")."','0')";
+    }
     $table="ipd_report_sex";
     $chk="chk";
-     $admdate=$query5[$i]['admdate'];
-
-     $data=array($admdate,$query5[$i]['admit_m'],$query5[$i]['admit_w'],$query5[$i]['admit_total'],$query5[$i]['dch_m']
-             ,$query5[$i]['dch_w'],$query5[$i]['dch_total'],$query5[$i]['stable_m'],$query5[$i]['stable_w']
-             ,$query5[$i]['stable_total'],date("Y-m-d H:i:s"),date("Y-m-d H:i:s"),0);
-    $inert_sex=$conn_DBMAIN->insert_update($table, $data, $chk);  }
-if(($inert_opd and $inert_10dxg and $inert_5prov and $inert_stable and $inert_sex)==FALSE){
-    echo "<script>alert('การนำเข้าข้อมูล MIS ไม่สำเร็จจ้า!')</script>";
-}else{
-    echo "<script>alert('การนำเข้าข้อมูล MIS สำเร็จแล้วจ้า!')</script>";
-}
-
+     
+     $inert_sex=$conn_DBMAIN->insert_update_new($table, $data, $chk);  
+     
+/*if(($inert_opd and $inert_10dxg and $inert_5prov and $inert_stable and $inert_sex)==FALSE){
+    $conn_DBHOS->close_PDO();
+    $conn_DBMAIN->close_PDO();
+    exit();
+}}}*/
 //////////////end import process////////////
 $conn_DBHOS->close_PDO();
 $conn_DBMAIN->close_PDO();
