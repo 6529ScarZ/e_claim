@@ -57,7 +57,7 @@ CONCAT(SUBSTR(dispensed_date,1,10),'T',SUBSTR(dispensed_date,12,18))dispensed_da
 prescriber,item_count,charg_amount,claim_amount,paid_amount,other_amount,reimbuser,
 benefit_plan,dispense_status
 FROM billdisp
-WHERE $code_where1 order by prescription_date asc";
+WHERE $code_where1 and charg_amount != 0 order by prescription_date asc";
 //echo $sql.'<br>';
 $query1=$conn_DB->query($sql);
 
@@ -65,7 +65,7 @@ $sql2="SELECT dispenseID,productCategory,HospitalDrugID,drugID,dfsCode,dfstext,P
 sigText,quantity,UnitPrice,Chargeamount,ReimbPrice,ReimbAmount,ProDuctselectionCode,refill,
 claimControl,ClaimCategory
 FROM billdisp_item
-WHERE $code_where2 ORDER BY prescription_date ASC";
+WHERE $code_where2 and Chargeamount != 0 ORDER BY prescription_date ASC";
 //echo $sql2.'<br>';
 $query2=$conn_DB->query($sql2);
 $name="BILLDISP".date("Ymd");
